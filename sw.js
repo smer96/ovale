@@ -1,5 +1,5 @@
-// Ovale v0.49 : la page se recharge depuis le réseau quand il y en a (nouvelle version), sinon depuis le cache ; les bibliothèques restent en cache
-const C='ovale-v0.49';
+// Ovale v0.50 : la page se recharge depuis le réseau quand il y en a (nouvelle version), sinon depuis le cache ; les bibliothèques restent en cache
+const C='ovale-v0.50';
 const CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png',
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js'];
 self.addEventListener('install',e=>{ self.skipWaiting(); e.waitUntil(caches.open(C).then(c=>Promise.all(CORE.map(u=>c.add(u).catch(()=>{}))))); });
