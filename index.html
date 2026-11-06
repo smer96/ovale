@@ -223,7 +223,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
 .ctab th{font:700 12px var(--f-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--chalk-dim);text-align:center;padding:4px 6px}
 .ctab td{padding:6px;border-top:1px solid rgba(243,241,231,.1);text-align:center}
 .ctab td.tn{text-align:left;white-space:nowrap} .ctab td.tn i{display:inline-block;width:8px;height:16px;margin-right:8px;vertical-align:-3px}
-.crest{display:inline-block;width:16px;height:19px;margin-right:7px;vertical-align:-4px;flex:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))}
+.crest{display:inline-block;width:16px;height:19px;margin-right:7px;vertical-align:-4px;flex:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))} img.crest{object-fit:contain}
 .chres .crest{width:14px;height:17px;margin-right:5px;vertical-align:-3px} .chres .cr.r .crest{margin:0 0 0 5px}
 .ctab td.tn small{color:var(--chalk-dim);margin-left:6px;font-size:12px} .ctab tr.cut td{border-bottom:1px dashed rgba(240,194,75,.55)} .chres .me{font-weight:700;color:var(--gold)} .ctab tr.me td{background:rgba(58,107,224,.18)} .ctab td.pts{font-weight:800}
 .chres{font-size:13.5px;color:var(--chalk-dim);display:flex;flex-direction:column;gap:3px} .chres b{color:var(--chalk)}
@@ -450,7 +450,7 @@ body.touchdev #cvHelp:not(.warn){display:none}
 <button id="fsTop" type="button" hidden aria-label="Plein écran"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="fsIco" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><span id="fsTxt">Plein écran</span></button>
 <div id="menu" class="ov">
   <div class="card">
-    <div class="tag">Prototype de gameplay · v0.51</div>
+    <div class="tag">Prototype de gameplay · v0.52</div>
     <div class="brand">Ovale <span class="egg" aria-hidden="true"></span></div>
     <div class="resumeBox" id="resumeBox" hidden><div class="rt" id="resumeTxt">Partie interrompue</div><div class="rs" id="resumeSub"></div>
       <div class="row"><button class="primary" id="resumeGo">Reprendre</button><button class="ghost" id="resumeDrop">Abandonner</button></div></div>
@@ -662,7 +662,7 @@ const VII=[[1,'F',8.5,7.4,.88,1.12,102,1.05],[2,'F',8.7,7.8,.92,1.08,98,1.05],[3
 const POSTE={1:'Pilier',2:'Talonneur',3:'Pilier',4:'2e ligne',5:'2e ligne',6:'3e ligne',7:'3e ligne',8:'3e ligne centre',9:'Demi de mêlée',10:'Ouvreur',11:'Ailier',12:'Centre',13:'Centre',14:'Ailier',15:'Arrière'};
 // qualité du jeu au pied par poste (0 à 1) : l'ouvreur, l'arrière et le premier centre sont les vrais buteurs
 const KICK={1:.12,2:.15,3:.12,4:.14,5:.14,6:.24,7:.24,8:.3,9:.62,10:.93,11:.45,12:.78,13:.55,14:.45,15:.84};
-const VERSION='v0.51';
+const VERSION='v0.52';
 /* variantes de gameplay : un match se joue toujours avec le gameplay d'origine (base) ; les ateliers permettent d'essayer les autres
    avant d'en brancher une au jeu. Mêlée : base (« Jeu ! » puis tambouriner) ou rythme (piste de rythme, cinq temps).
    Grattage : base ou timing (anneau doré, fenêtre parfaite). Tir au but : base ou tracé (geste du doigt vers les poteaux ; la bande
@@ -6671,10 +6671,13 @@ function confUpdate(a,b,sa,sb,neutral){
 const moodC=c=>c>.45?'en pleine confiance':c>.15?'en confiance':c<-.45?'en plein doute':c<-.15?'dans le doute':'';
 const moodOf=x=>moodC(typeof x==='number'&&CH.conf?CH.conf[x]||0:0);
 const tmId=x=>typeof x==='number'?CH.teams[x].id:x;
-/* écusson d'un club pour les écrans du championnat : un blason dessiné d'après les couleurs et le motif de son maillot.
-   Aucun logo réel, aucun texte. Jamais affiché pendant les matchs */
+/* écusson d'un club pour les écrans du championnat : le logo du club (fichiers provisoires du dossier logos/) pour les clubs de Pro D2,
+   sinon un blason dessiné d'après les couleurs et le motif de son maillot (adversaires de barrage). Jamais affiché pendant les matchs */
+const LOGO={oyo:'oyonnax',bri:'brive',pro:'provence-rugby',bia:'biarritz',sax:'angouleme',gre:'grenoble',dax:'dax',mtb:'montauban',
+  nar:'narbonne',vrd:'valence-romans',bez:'beziers',aur:'aurillac',col:'colomiers',nic:'nice',age:'agen',nev:'nevers'};
 let crestN=0;
 function crestSvg(id){
+  if(LOGO[id]) return `<img class="crest" src="logos/${LOGO[id]}.svg" alt="" aria-hidden="true" draggable="false">`;
   const c=clubOf(id), k=c&&c.kit||{shirt:'#7a8a80',shirt2:'#d8dccf',pattern:'plain'}, a=k.shirt, b=k.shirt2, u='cr'+(++crestN);
   const sh='M1.5 1.5h17v9.5c0 5.6-4.3 8.9-8.5 11.3C5.8 19.9 1.5 16.6 1.5 11z';
   const P={hoops:`<rect y="5" width="20" height="3.6" fill="${b}"/><rect y="12" width="20" height="3.6" fill="${b}"/><rect y="19" width="20" height="3.6" fill="${b}"/>`,

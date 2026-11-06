@@ -1,6 +1,7 @@
-// Ovale v0.51 : la page se recharge depuis le réseau quand il y en a (nouvelle version), sinon depuis le cache ; les bibliothèques restent en cache
-const C='ovale-v0.51';
-const CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png',
+// Ovale v0.52 : la page se recharge depuis le réseau quand il y en a (nouvelle version), sinon depuis le cache ; les bibliothèques et les logos restent en cache
+const C='ovale-v0.52';
+const LOGOS=['agen','angouleme','aurillac','beziers','biarritz','brive','colomiers','dax','grenoble','montauban','narbonne','nevers','nice','oyonnax','provence-rugby','valence-romans'];
+const CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png',...LOGOS.map(n=>'logos/'+n+'.svg'),
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js'];
 self.addEventListener('install',e=>{ self.skipWaiting(); e.waitUntil(caches.open(C).then(c=>Promise.all(CORE.map(u=>c.add(u).catch(()=>{}))))); });
 self.addEventListener('activate',e=>{ e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim())); });
